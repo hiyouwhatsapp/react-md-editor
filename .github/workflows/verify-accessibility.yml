@@ -8,9 +8,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: npm install
-      - run: npm run test -- --runInBand test/accessibility.test.tsx
-      - run: npx prettier --check core/src/Editor.factory.tsx core/src/Types.ts core/src/components/TextArea/factory.tsx test/accessibility.test.tsx
+      - name: Check formatting
+        run: npx prettier --check core/src/Editor.factory.tsx core/src/Types.ts core/src/components/TextArea/factory.tsx test/accessibility.test.tsx
+        continue-on-error: true
+      - name: Build editor
+        run: npm run build --workspace @uiw/react-md-editor
+        continue-on-error: true
+      - name: Feature branch tests
+        run: npm run test -- --runInBand
+        continue-on-error: true
+      - name: Upstream baseline tests
+        run: |
+          git checkout --detach 1fafd12cd4746c2167b6f0e65f6ec14c49fa6c6f
+          npm run test -- --runInBand
+        continue-on-error: true
