@@ -74,8 +74,10 @@ export function createTextArea(options?: { Markdown?: MarkdownComponent; useMinH
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const textStyle: CSS.Properties =
-      MarkdownComponent && highlightEnable ? {} : { WebkitTextFillColor: 'initial', overflow: 'auto' };
+    // A large syntax-highlight overlay makes editing embedded base64 images unresponsive
+    // Fall back to the native textarea without losing the editable value
+    const showHighlight = MarkdownComponent && highlightEnable && (markdown?.length || 0) <= 100_000;
+    const textStyle: CSS.Properties = showHighlight ? {} : { WebkitTextFillColor: 'initial', overflow: 'auto' };
 
     return (
       <div ref={warp} className={`${prefixCls}-area ${className || ''}`} onScroll={onScroll}>
@@ -108,7 +110,7 @@ export function createTextArea(options?: { Markdown?: MarkdownComponent; useMinH
             )
           ) : (
             <Fragment>
-              {MarkdownComponent && highlightEnable && <MarkdownComponent prefixCls={prefixCls} />}
+              {showHighlight && MarkdownComponent && <MarkdownComponent prefixCls={prefixCls} />}
               <Textarea prefixCls={prefixCls} {...otherProps} style={textStyle} />
             </Fragment>
           )}
