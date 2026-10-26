@@ -12,6 +12,10 @@ jobs:
         with:
           node-version: 22
       - run: npm install
+      - name: Show formatter changes
+        run: |
+          npx prettier --write core/src/components/TextArea/factory.tsx
+          git diff -- core/src/components/TextArea/factory.tsx
       - run: npx prettier --check core/src/Editor.factory.tsx core/src/Types.ts core/src/components/TextArea/factory.tsx test/accessibility.test.tsx
       - run: npm run build --workspace @uiw/react-md-editor
       - name: Test accessibility and check unchanged upstream failures
