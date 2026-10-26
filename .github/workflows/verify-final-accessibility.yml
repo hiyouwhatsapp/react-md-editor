@@ -1,0 +1,23 @@
+name: Check final accessibility fix
+on:
+  push:
+    branches:
+      - verify/textarea-accessibility-686-final
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npx prettier --check core/src/Editor.factory.tsx core/src/Types.ts core/src/components/TextArea/factory.tsx test/accessibility.test.tsx
+      - run: npm run build --workspace @uiw/react-md-editor
+      - name: Test accessibility and check unchanged upstream failures
+        run: |
+          npm run test -- --runInBand > /tmp/tests.log 2>&1 || true
+          cat /tmp/tests.log
+          grep -q 'PASS test/accessibility.test.tsx' /tmp/tests.log
+          test "$(grep '^FAIL test/' /tmp/tests.log | sort -u)" = 'FAIL test/list-selection.test.tsx'
+          grep -Eq 'Tests: +6 failed, 70 passed, 76 total' /tmp/tests.log
