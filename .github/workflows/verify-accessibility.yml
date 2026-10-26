@@ -1,0 +1,16 @@
+name: Verify textarea accessibility fix
+on:
+  push:
+    branches:
+      - verify/textarea-accessibility-686
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run test -- --runInBand test/accessibility.test.tsx
+      - run: npx prettier --check core/src/Editor.factory.tsx core/src/Types.ts core/src/components/TextArea/factory.tsx test/accessibility.test.tsx
