@@ -23,12 +23,15 @@ describe.each([
     expect(declarations).toBeDefined();
     expect(declarations).toContain('font-size: inherit;');
 
-    // DaisyUI uses these same class names for layout components
+    // DaisyUI uses these class names for layout components. jsdom resolves
+    // conflicting styles by source order rather than selector specificity, so
+    // load the generic styles first, then the editor's more specific rules.
     const style = document.createElement('style');
     style.textContent =
+      '.list { display: flex; font-size: 24px; }\n.table { display: table; font-size: 24px; }\n' +
       '.w-md-editor-text-pre .token.list, .w-md-editor-text-pre .token.table {' +
       declarations +
-      '}\n.list { display: flex; font-size: 24px; }\n.table { display: table; font-size: 24px; }';
+      '}';
     document.head.appendChild(style);
 
     try {
