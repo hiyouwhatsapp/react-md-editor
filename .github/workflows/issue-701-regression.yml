@@ -1,0 +1,17 @@
+name: Highlighted input regression
+on:
+  push:
+    branches:
+      - fix/highlighted-input-background-701
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - run: npm run build
+      - run: npx tsbb test --runInBand test/input-background.test.tsx
