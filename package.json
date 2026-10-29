@@ -57,6 +57,10 @@
     ],
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/?!(.*)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/test/fixtures/"
     ]
   },
   "workspaces": [
