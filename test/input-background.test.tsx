@@ -5,6 +5,7 @@ import React from 'react';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import MDEditor from '../core/src';
 import MDEditorCommon from '../core/src/index.common';
 import MDEditorNoHighlight from '../core/src/index.nohighlight';
@@ -13,7 +14,7 @@ const textStyles = readFileSync(join(__dirname, '../core/src/components/TextArea
 
 it('keeps an opaque textarea background from covering highlighted text', () => {
   expect(textStyles).toMatch(
-    /\.\@\{md-editor\}-text-highlighted\s+\.\@\{md-editor\}-text-input\s*\{\s*background-color:\s*transparent\s*!important;/,
+    /\.@\{md-editor\}-text-highlighted\s+\.@\{md-editor\}-text-input\s*\{\s*background-color:\s*transparent\s*!important;/,
   );
 });
 
