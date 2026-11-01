@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { render } from '@testing-library/react';
+import rehypeSanitize from 'rehype-sanitize';
 import MDEditor from '../core/src';
 import MDEditorCommon from '../core/src/index.common';
 import MDEditorNoHighlight from '../core/src/index.nohighlight';
@@ -22,5 +23,8 @@ const editors = [
 describe.each(editors)('%s Markdown preview', (_name, Editor) => {
   it.each(cases)('renders %s without crashing', (_label, source) => {
     expect(() => render(<Editor.Markdown source={source} />)).not.toThrow();
+  });
+  it.each(cases)('renders %s with rehype-sanitize', (_label, source) => {
+    expect(() => render(<Editor.Markdown source={source} rehypePlugins={[rehypeSanitize]} />)).not.toThrow();
   });
 });
