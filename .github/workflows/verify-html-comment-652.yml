@@ -13,4 +13,6 @@ jobs:
         with:
           node-version: 22
       - run: npm install --ignore-scripts
-      - run: npm run coverage
+      - run: npm install --no-save --ignore-scripts rehype-sanitize@6
+      - run: npm ls hast-util-raw rehype-raw || true
+      - run: npm test -- --runInBand test/html-comment-preview.test.tsx
