@@ -1,0 +1,29 @@
+name: Verify issue 652 against upstream
+on:
+  push:
+    branches:
+      - verify/html-comment-652-upstream-20261102
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --ignore-scripts
+      - run: npm install --no-save --ignore-scripts rehype-sanitize@6
+      - name: Confirm issue 652 test cases pass
+        run: |
+          set +e
+          npm run coverage > /tmp/issue652-tests.log 2>&1
+          suite_status=$?
+          set -e
+          cat /tmp/issue652-tests.log
+          if grep -q 'PASS test/html-comment-preview.test.tsx' /tmp/issue652-tests.log; then
+            echo 'Issue 652 regressions passed (full suite exit status:' "$suite_status" ')'
+          else
+            echo 'Issue 652 regressions did not pass' >&2
+            exit 1
+          fi
