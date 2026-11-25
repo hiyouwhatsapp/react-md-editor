@@ -19,6 +19,7 @@ export default function Textarea(props: TextAreaProps) {
     extraCommands,
     tabSize,
     defaultTabEnable,
+    continueListsOnEnter,
     autoFocusEnd,
     textareaWarp,
     dispatch,
@@ -27,10 +28,15 @@ export default function Textarea(props: TextAreaProps) {
   const textRef = React.useRef<HTMLTextAreaElement>(null);
   const executeRef = React.useRef<TextAreaCommandOrchestrator>();
   const statesRef = React.useRef<ExecuteCommandState>({ fullscreen, preview });
+  const continueListsOnEnterRef = React.useRef(continueListsOnEnter);
 
   useEffect(() => {
     statesRef.current = { fullscreen, preview, highlightEnable };
   }, [fullscreen, preview, highlightEnable]);
+
+  useEffect(() => {
+    continueListsOnEnterRef.current = continueListsOnEnter;
+  }, [continueListsOnEnter]);
 
   useEffect(() => {
     if (textRef.current && dispatch) {
@@ -58,7 +64,7 @@ export default function Textarea(props: TextAreaProps) {
   }, [textareaWarp]);
 
   const onKeyDown = (e: KeyboardEvent | React.KeyboardEvent<HTMLTextAreaElement>) => {
-    handleKeyDown(e, tabSize, defaultTabEnable);
+    handleKeyDown(e, tabSize, defaultTabEnable, continueListsOnEnterRef.current);
     shortcuts(e, [...(commands || []), ...(extraCommands || [])], executeRef.current, dispatch, statesRef.current);
   };
   useEffect(() => {

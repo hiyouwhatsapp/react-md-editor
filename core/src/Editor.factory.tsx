@@ -110,6 +110,7 @@ export function createMDEditor<
         autoFocusEnd = false,
         tabSize = 2,
         defaultTabEnable = false,
+        continueListsOnEnter = true,
         onChange,
         onStatistics,
         onHeightChange,
@@ -296,7 +297,7 @@ export function createMDEditor<
         }
       };
       return (
-        <EditorContext.Provider value={{ ...state, disabled, dispatch }}>
+        <EditorContext.Provider value={{ ...state, disabled, continueListsOnEnter, dispatch }}>
           <div ref={container} className={cls} {...other} onClick={containerClick} style={containerStyle}>
             <ToolbarVisibility
               hideToolbar={hideToolbar}

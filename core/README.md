@@ -1147,6 +1147,7 @@ Inherit custom color variables by adding [`.wmde-markdown-var`](https://github.c
 - `minHeight?: number=100`: Minimum drag height. The `visibleDragbar=true` value is valid.
 - `tabSize?: number=2`: The number of characters to insert when pressing tab key. Default `2` spaces.
 - `defaultTabEnable?: boolean=false`: If `false`, the `tab` key inserts a tab character into the textarea. If `true`, the `tab` key executes default behavior e.g. focus shifts to next element. 
+- `continueListsOnEnter?: boolean=true`: Continue Markdown lists or end empty list items on Enter. Set this to `false` to let the browser insert a normal newline instead.
 - `hideToolbar?: boolean=false`: Option to hide the tool bar.
 - `enableScroll?: boolean=true`: Whether to enable scrolling.
 

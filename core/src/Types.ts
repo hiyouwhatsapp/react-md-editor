@@ -131,6 +131,8 @@ export interface MDEditorProps extends Omit<React.HTMLAttributes<HTMLDivElement>
    * If `false`, the `tab` key inserts a tab character into the textarea. If `true`, the `tab` key executes default behavior e.g. focus shifts to next element.
    */
   defaultTabEnable?: boolean;
+  /** Continue or end Markdown list items when pressing Enter. Defaults to `true`. */
+  continueListsOnEnter?: boolean;
   /**
    * You can create your own commands or reuse existing commands.
    */

@@ -47,6 +47,7 @@ export default function handleKeyDown(
   e: KeyboardEvent | React.KeyboardEvent<HTMLTextAreaElement>,
   tabSize: number = 2,
   defaultTabEnable: boolean = false,
+  continueListsOnEnter: boolean = true,
 ) {
   const target = e.target as HTMLTextAreaElement;
   const starVal = target.value.substr(0, target.selectionStart);
@@ -105,6 +106,7 @@ export default function handleKeyDown(
       return insertTextAtPosition(target, space);
     }
   } else if (
+    continueListsOnEnter &&
     e.keyCode === 13 &&
     e.code.toLowerCase() === 'enter' &&
     (/^(-|\*)\s/.test(currentLineStr) || /^\d+\.\s/.test(currentLineStr)) &&

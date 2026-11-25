@@ -27,6 +27,7 @@ export interface ContextStore {
   scrollTopPreview?: number;
   tabSize?: number;
   defaultTabEnable?: boolean;
+  continueListsOnEnter?: boolean;
   [key: string]: any;
 }
 
